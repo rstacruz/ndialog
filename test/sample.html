@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title></title>
-    <script src="../vendor/jquery.js"></script>
-    <script src="../simpletap.js"></script>
+  <meta charset="UTF-8" />
+  <title></title>
+  <link rel='stylesheet' href='../ndialog.css'>
+  <script src='../vendor/jquery.js'></script>
+  <script src='../vendor/coffee-script.js'></script>
+  <script src='../ndialog.coffee' type='text/coffeescript'></script>
   <style>
-    a { width: 100px; height: 100px; line-height: 100px; text-align: center; background: green; display: block; color: white; }
-    a.tap { background: black; }
+    * { margin: 0; padding: 0; }
+    body { font-family: sans-serif; line-height: 1.5; font-size: 10pt; }
+    .ndialog-popup { padding: 20px; }
   </style>
 
 </head>
 <body style=''>
 
-  <a style='' href='#'>Tap me</a>
-
-  <textarea rows='20'></textarea>
+  <button class='btn'>Open</button>
 
   <script>
-    $.simpletap();
-    $('a').on('tap', function(e) {
-      $('textarea').html($('textarea').html() + e.type + " <a>\n");
-      e.preventDefault();
+    $('.btn').on('click', function() {
+      NDialog.open({ html: "Hello" });
     });
   </script>
-  
+
 </body>
 </html>
