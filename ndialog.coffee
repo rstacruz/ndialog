@@ -76,6 +76,7 @@ class NDialog
     this
 
   close: ->
+    return unless @$el.parent().length > 0
     @unbindEvents()
     @trigger 'close', this
     @$el.remove()
@@ -117,7 +118,7 @@ class NDialog
 
   # Honors the 'autofocus' attribute.
   autofocus: ->
-    @$popup.find('[autofocus]').get(0).focus()
+    @$popup.find('[autofocus]').get(0)?.focus()
 
   # Loads via a URL path. You may pass AJAX options into `options`.
   # Returns an AJAX promise.
