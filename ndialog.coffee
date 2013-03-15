@@ -73,14 +73,14 @@ class NDialog
 
     @reposition()
     @bindEvents()
-    @trigger 'open', this
+    @trigger 'open', dialog: this
 
     this
 
   close: ->
     return unless @$el.parent().length > 0
     @unbindEvents()
-    @trigger 'close', this
+    @trigger 'close', dialog: this
     @$el.remove()
     this
 
@@ -113,7 +113,7 @@ class NDialog
   setHTML: (html) ->
     @$el.removeClass('loading').addClass('loaded')
     @$popup.html(@options.template(html: html))
-    @trigger 'content', this
+    @trigger 'content', dialog: this
     @reposition()
     @autofocus()
     this
@@ -164,8 +164,8 @@ class NDialog
       display: 'block'
 
     @$popup.css
-      left: Math.max(marginLeft, (viewport.width - popup.width) / 2)
-      top:  offset.top + Math.max(marginTop, (viewport.height - popup.height) / 2)
+      left: parseInt(Math.max(marginLeft, (viewport.width - popup.width) / 2))
+      top:  parseInt(offset.top + Math.max(marginTop, (viewport.height - popup.height) / 2))
 
     this
 
