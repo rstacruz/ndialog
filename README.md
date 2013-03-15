@@ -12,8 +12,10 @@ Sure there are tons of modal dialog implementations out there, but:
 It has these limitations, which I'd like to consider as features:
 
  * NDialog assumes no IE7/IE6 support, meaning the markup is much simpler.
- * NDialog has no support for image galleries.
- * Only one dialog can be open for now (multi-dialogs to be implemented later).,
+ * No animations. (But you can implement your own if you like)
+ * No in-popup scrolling. (But you can implement it yourself)
+ * Has no support for image galleries.
+ * Only one dialog can be open for now (multi-dialogs to be implemented later).
 
 Opening
 -------
