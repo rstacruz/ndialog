@@ -135,3 +135,23 @@ describe 'Ndialog', ->
       @dialog = NDialog.open class: 'ticklesphinx'
       @dialog.$el.is('.ticklesphinx').should.equal true
 
+  describe 'shrinkwrapping', ->
+    for size in [100, 200]
+      it "should work (#{size}px)", ->
+        @dialog = NDialog.open html: """
+          <div style='width: #{size}px; height: #{size + 10}px;'></div>
+        """
+
+        @dialog.$popup.outerWidth().should.equal size
+        @dialog.$popup.outerHeight().should.equal (size + 10)
+
+  describe 'errors', ->
+    it 'should trigger the error event', (done) ->
+      @dialog = NDialog.open url: 'xxx'
+
+      @dialog.on 'error', (e) ->
+        e.status.should.equal 'error'
+        (typeof e.xhr.readyState).should.equal 'number'
+        done()
+
+

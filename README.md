@@ -18,14 +18,15 @@ It has these limitations, which I'd like to consider as features:
 Opening
 -------
 
-You can open a dialog by using the constructor.
+You can open a dialog by using `NDialog.open` or the constructor.
 
 ``` javascript
-new NDialog({url: '/users/index.html'});
-new NDialog({html: '<div>hello there</div>'});
+NDialog.open({url: '/users/index.html'});
+NDialog.open({html: '<div>hello there</div>'});
 
-// Or you can also use the alias:
-NDialog.open({url: 'x'});
+// Or you can also use the constructor (works the same way):
+new NDialog({url: 'x'});
+new NDialog({html: 'x'});
 ```
 
 Or you can do it manually:
@@ -230,7 +231,11 @@ Error handling
 Just catch the `error` event.
 
 ``` javascript
-NDialog.on('error', function(e, dialog, status) {
-  dialog.setHTML("Something went wrong. There was a '"+status+"' error.");
+NDialog.on('error', function(e) {
+  dialog.setHTML("Something went wrong. There was a '"+e.status+"' error.");
+
+  e.status; /* Ajax status */
+  e.xhr;    /* XmlHTTPRequest object */
+  e.dialog; /* Dialog object */
 });
 ```

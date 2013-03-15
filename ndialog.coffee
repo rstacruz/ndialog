@@ -123,12 +123,12 @@ class NDialog
   # Loads via a URL path. You may pass AJAX options into `options`.
   # Returns an AJAX promise.
   load: (url, options={}) ->
-    newOptions = 
+    newOptions =
       complete: (xhr, status) =>
         if status is 'success'
           @setHTML(xhr.responseText)
         else
-          @trigger 'error', this, "ajax:#{status}", xhr
+          @trigger 'error', dialog: this, status: status, xhr: xhr
 
     newOptions = $.extend({}, options, newOptions)
     $.ajax url, newOptions
@@ -171,7 +171,7 @@ class NDialog
   # Just delegate the events onto the main element.
   on:  (event, args...) -> @$el.on  "ndialog:#{event}", args...; this
   off: (event, args...) -> @$el.off "ndialog:#{event}", args...; this
-  trigger: (event, args...) -> @$el?.trigger "ndialog:#{event}", args...; this
+  trigger: (event, options={}) -> @$el?.trigger $.Event("ndialog:#{event}", options); this
 
   # Global events:
   # Catch the events in `document` as they bubble up.
