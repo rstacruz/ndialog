@@ -1,4 +1,6 @@
 class NDialog
+  @version: "0.0.1"
+
   @instance: null
 
   @close: ->
