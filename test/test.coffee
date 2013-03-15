@@ -6,6 +6,7 @@ describe 'Ndialog', ->
   afterEach ->
     @dialog?.close()
     NDialog::options = @options
+    $(document).off '.ndialog'
 
   describe 'basic', ->
     beforeEach ->
@@ -154,4 +155,18 @@ describe 'Ndialog', ->
         (typeof e.xhr.readyState).should.equal 'number'
         done()
 
+    it 'should work on the document level', (done) ->
+      NDialog.on 'error', (e) ->
+        e.status.should.equal 'error'
+        (typeof e.xhr.readyState).should.equal 'number'
+        done()
 
+      @dialog = NDialog.open url: 'xxx'
+
+   describe 'register', ->
+     it 'should work', (done) ->
+       NDialog.on 'open', -> done()
+       $('.ndialog-link').ndialog()
+       $link = $("<a href='lol' class='ndialog-link'>")
+       $(document.body).append $link
+       $link.trigger 'click'
