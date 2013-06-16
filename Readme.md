@@ -2,6 +2,8 @@
 
 Simple modal dialog implementation.
 
+[![Build Status](https://travis-ci.org/rstacruz/ndialog.png?branch=master)](https://travis-ci.org/rstacruz/ndialog)
+
 Why?
 ----
 
