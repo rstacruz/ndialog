@@ -1,4 +1,9 @@
-describe 'Ndialog', ->
+node = typeof module is 'object'
+browser = not node
+
+require('./setup')  if node
+
+testSuite 'Ndialog', ->
   beforeEach ->
     # Save the options before NDialog.configure.
     @options = NDialog::options
@@ -13,7 +18,7 @@ describe 'Ndialog', ->
       @dialog = NDialog.open(html: '<div class="msg">hello</div>')
 
     it 'should work', ->
-      console.log @dialog.$el
+      # console.log @dialog.$el
 
     it 'should close', (done) ->
       @dialog.on 'close', -> done()
@@ -42,11 +47,12 @@ describe 'Ndialog', ->
     it 'should have message in popup', ->
       @dialog.$popup.find('.msg').length.should.equal 1
 
-  it 'should focus auto-focus boxes', (done) ->
-    $html = $('<div class="msg">hello<input type="text" class="textbox" autofocus></div>')
-    $html.find('.textbox').on 'focus', -> done()
+    if browser
+      it 'should focus auto-focus boxes', (done) ->
+        $html = $('<div class="msg">hello<input type="text" class="textbox" autofocus></div>')
+        $html.find('.textbox').on 'focus', -> done()
 
-    @dialog = NDialog.open(html: $html)
+        @dialog = NDialog.open(html: $html)
 
   describe 'escapable: true', ->
     beforeEach ->
@@ -128,40 +134,43 @@ describe 'Ndialog', ->
 
       @dialog.$popup.find('.msg').text().should.equal 'xxx'
 
-    it 'zIndex', ->
-      @dialog = NDialog.open zIndex: 3050
-      @dialog.$el.css('z-index').should.equal '3050'
+    if browser
+      it 'zIndex', ->
+        @dialog = NDialog.open zIndex: 3050
+        @dialog.$el.css('z-index').should.equal '3050'
 
     it 'class', ->
       @dialog = NDialog.open class: 'ticklesphinx'
       @dialog.$el.is('.ticklesphinx').should.equal true
 
   describe 'shrinkwrapping', ->
-    for size in [100, 200]
-      it "should work (#{size}px)", ->
-        @dialog = NDialog.open html: """
-          <div style='width: #{size}px; height: #{size + 10}px;'></div>
-        """
+    if browser
+      for size in [100, 200]
+        it "should work (#{size}px)", ->
+          @dialog = NDialog.open html: """
+            <div style='width: #{size}px; height: #{size + 10}px;'></div>
+          """
 
-        @dialog.$popup.outerWidth().should.equal size
-        @dialog.$popup.outerHeight().should.equal (size + 10)
+          @dialog.$popup.outerWidth().should.equal size
+          @dialog.$popup.outerHeight().should.equal (size + 10)
 
-  describe 'errors', ->
-    it 'should trigger the error event', (done) ->
-      @dialog = NDialog.open url: 'xxx'
+  if browser
+    describe 'errors', ->
+      it 'should trigger the error event', (done) ->
+        @dialog = NDialog.open url: 'xxx'
 
-      @dialog.on 'error', (e) ->
-        e.status.should.equal 'error'
-        (typeof e.xhr.readyState).should.equal 'number'
-        done()
+        @dialog.on 'error', (e) ->
+          e.status.should.equal 'error'
+          (typeof e.xhr.readyState).should.equal 'number'
+          done()
 
-    it 'should work on the document level', (done) ->
-      NDialog.on 'error', (e) ->
-        e.status.should.equal 'error'
-        (typeof e.xhr.readyState).should.equal 'number'
-        done()
+      it 'should work on the document level', (done) ->
+        NDialog.on 'error', (e) ->
+          e.status.should.equal 'error'
+          (typeof e.xhr.readyState).should.equal 'number'
+          done()
 
-      @dialog = NDialog.open url: 'xxx'
+        @dialog = NDialog.open url: 'xxx'
 
    describe 'register', ->
      it 'should work', (done) ->
